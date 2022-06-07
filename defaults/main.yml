@@ -13,7 +13,7 @@ virtinstall_host: "localhost"
 virtinstall_gen_mac_from_fqdn: true
 
 # FQDN used only for MAC generation,  define this in hosts inventory.
-virtinstall_fqdn: "test.mauer.in"
+virtinstall_fqdn: "{{ inventory_hostname | d('test.jam82.de') }}"
 
 # secure boot on fedora
 virtinstall_boot:

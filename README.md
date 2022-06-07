@@ -93,6 +93,7 @@ virtinstall_virt_type: kvm
 ## Dependencies
 
 - community.libvirt
+- git+https://github.com/jam82/ansible-collection-general.git
 
 ## Example Playbook
 

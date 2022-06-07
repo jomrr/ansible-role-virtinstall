@@ -44,6 +44,7 @@ scenario:
     - check
     - destroy
   converge_sequence:
+    - dependency
     - create
     - prepare
     - converge
@@ -51,6 +52,7 @@ scenario:
     - cleanup
     - destroy
   test_sequence:
+    - dependency
     - lint
     - cleanup
     - destroy

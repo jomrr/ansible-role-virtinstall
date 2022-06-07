@@ -13,17 +13,17 @@
     uri: "{{ virtinstall_connection }}"
   register: all_vms
 
-- name: "Generate MAC(s) from FQDN"
-  delegate_to: "{{ virtinstall_host }}"
-  gen_mac_from_fqdn:
-    fqdn: "{{ virtinstall_fqdn }}"
-    networks: "{{ virtinstall_networks }}"
+- name: "Generate mac address per defined network card"
+  local_action:
+    module: jam82.general.gen_mac_from_name
+    name: "{{ virtinstall_fqdn }}"
+    count: "{{ virtinstall_networks | length }}"
   register: _vm
   when: virtinstall_gen_mac_from_fqdn | bool
 
-- name: "Debug MAC(s)"
-  delegate_to: "{{ virtinstall_host }}"
-  ansible.builtin.debug:
+- name: "Debug mac address generation"
+  local_action:
+    module: ansible.builtin.debug
     msg: "{{ _vm }}"
   when: virtinstall_gen_mac_from_fqdn | bool
 
