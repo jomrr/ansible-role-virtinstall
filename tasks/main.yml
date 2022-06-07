@@ -1,0 +1,65 @@
+---
+# role: ansible-role-virtinstall
+# file: tasks/main.yml
+
+# - name: "Install VMs"
+#   ansible.builtin.include_tasks: vm.yml
+#   loop: "{{ virtinstall_vms }}"
+
+- name: "List all VMs"
+  delegate_to: "{{ virtinstall_host }}"
+  community.libvirt.virt:
+    command: list_vms
+    uri: "{{ virtinstall_connection }}"
+  register: all_vms
+
+- name: "Generate MAC(s) from FQDN"
+  delegate_to: "{{ virtinstall_host }}"
+  gen_mac_from_fqdn:
+    fqdn: "{{ virtinstall_fqdn }}"
+    networks: "{{ virtinstall_networks }}"
+  register: _vm
+  when: virtinstall_gen_mac_from_fqdn | bool
+
+- name: "Debug MAC(s)"
+  delegate_to: "{{ virtinstall_host }}"
+  ansible.builtin.debug:
+    msg: "{{ _vm }}"
+  when: virtinstall_gen_mac_from_fqdn | bool
+
+- name: "Install VM {{ virtinstall_name }}"
+  delegate_to: "{{ virtinstall_host }}"
+  ansible.builtin.command: >-
+    virt-install
+      {% if virtinstall_autostart is defined and virtinstall_autostart | bool %}--autostart{% endif %}
+      {% if virtinstall_connection is defined %}--boot {{ virtinstall_boot | join(',') | d(omit) }}{% endif %}
+      {% if virtinstall_connection is defined %}--connect {{ virtinstall_connection | d(omit) }}{% endif %}
+      {% if virtinstall_console is defined %}--console {{ virtinstall_console | d(omit) }}{% endif %}
+      {% for disk in virtinstall_disks %}
+      --disk {{ disk | d('pool=default,size=32') }}
+      {% endfor %}
+      {% if virtinstall_extra_args is defined %}--extra-args "{{ virtinstall_extra_args | join(' ') | d(omit) }}"{% endif %}
+      {% if virtinstall_features is defined %}--features "{{ virtinstall_features | join(',') | d(omit) }}"{% endif %}
+      {% for card in virtinstall_graphics %}
+      --graphics {{ card }}
+      {% endfor %}
+      {% if virtinstall_initrd_inject is defined and virtinstall_initrd_inject | length > 0 %}--initrd-inject {{ virtinstall_initrd_inject | d(omit) }}{% endif %}
+      {% if virtinstall_location is defined %}--location {{ virtinstall_location | d(omit) }}{% endif %}
+      --memory {{ virtinstall_memory | d(2048) }}
+      --name {{ virtinstall_name }}
+      {% if _vm.macs is defined %}
+        {% for mac in _vm.macs %}
+      --network={{ virtinstall_networks[loop.index0] }},mac={{ mac }}
+        {% endfor %}
+      {% else %}
+        {% for mac in virtinstall_networks %}
+      --network={{ net }}
+        {% endfor %}
+      {% endif %}
+      {% if virtinstall_noautoconsole is defined %}--{{ virtinstall_noautoconsole | ternary('noautoconsole','autoconsole') }}{% endif %}
+      --os-variant={{ virtinstall_os_variant | d(generic) }}
+      {% if virtinstall_pxe is defined and virtinstall_pxe | bool %}--pxe{% endif %}
+      --sound {{ virtinstall_sound | d(none) }}
+      --vcpus={{ virtinstall_vcpus | d(2) }}
+      --virt-type {{ virtinstall_virt_type | d(kvm) }}
+  when: virtinstall_name not in all_vms.list_vms

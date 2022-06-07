@@ -1,0 +1,9 @@
+---
+# role: ansible-role-virtinstall
+# file: molecule/resources/playbooks/prepare.yml
+
+- name: Prepare
+  hosts: all
+  become: false
+  gather_facts: false
+  tasks: []
