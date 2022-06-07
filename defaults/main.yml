@@ -3,7 +3,7 @@
 # file: defaults/main.yml
 
 # name of the guest in libvirt
-virtinstall_name: "{{ inventory_host | d('test') }}"
+virtinstall_name: "{{ inventory_hostname_short | d('test') }}"
 
 # the host virt-install is executed from, all tasks are delegated to this host.
 # this is different than the inventory_host which is the guest to be created
@@ -27,10 +27,11 @@ virtinstall_connection: qemu:///system
 virtinstall_console: pty,target_type=serial
 # disks of the VM as list, direct params of `virt-install --disk`
 virtinstall_disks:
-  - path=/tmp/test.qcow2,format=qcow2,size=32,target.bus=virtio
+  - "path=/tmp/{{ virtinstall_name }}.qcow2,format=qcow2,size=32,target.bus=virtio"
 # virt-install --extra-args "..."
+# inst.ks file has to exist or virt-install fails.
 virtinstall_extra_args:
-  # - inst.ks=file:/test.ks
+  # - "inst.ks=file:/{{ virtinstall_name }}.cfg"
   - console=tty0
   - console=ttyS0,115200
   - ipv6.disable=1
