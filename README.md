@@ -30,7 +30,7 @@ Variables and defaults for this role.
 # file: defaults/main.yml
 
 # name of the guest in libvirt
-virtinstall_name: "{{ inventory_host | d('test') }}"
+virtinstall_name: "{{ inventory_hostname_short | d('test') }}"
 
 # the host virt-install is executed from, all tasks are delegated to this host.
 # this is different than the inventory_host which is the guest to be created
@@ -40,7 +40,7 @@ virtinstall_host: "localhost"
 virtinstall_gen_mac_from_fqdn: true
 
 # FQDN used only for MAC generation,  define this in hosts inventory.
-virtinstall_fqdn: "test.mauer.in"
+virtinstall_fqdn: "{{ inventory_hostname | d('test.jam82.de') }}"
 
 # secure boot on fedora
 virtinstall_boot:
@@ -52,13 +52,13 @@ virtinstall_boot:
 # default to local qemu system connection
 virtinstall_connection: qemu:///system
 virtinstall_console: pty,target_type=serial
-# disks of the VM as list, direct params of `virt-install --disk`,
-# adjust this or setup ephemeral pool in libvirt.
+# disks of the VM as list, direct params of `virt-install --disk`
 virtinstall_disks:
-  - path=/tmp/test.qcow2,format=qcow2,size=32,target.bus=virtio
+  - "path=/tmp/{{ virtinstall_name }}.qcow2,format=qcow2,size=32,target.bus=virtio"
 # virt-install --extra-args "..."
+# inst.ks file has to exist or virt-install fails.
 virtinstall_extra_args:
-  # - inst.ks=file:/test.ks
+  # - "inst.ks=file:/{{ virtinstall_name }}.cfg"
   - console=tty0
   - console=ttyS0,115200
   - ipv6.disable=1
@@ -93,7 +93,17 @@ virtinstall_virt_type: kvm
 ## Dependencies
 
 - community.libvirt
-- git+https://github.com/jam82/ansible-collection-general.git
+- jam82.general
+
+As my login to ansible galaxy is screwed since some years because of an interrupted initial login, you need to use github as install source.
+
+```yaml
+---
+# file: requirements.yml
+collections:
+  - name: git+https://github.com/jam82/ansible-collection-general.git
+    version: main
+```
 
 ## Example Playbook
 
