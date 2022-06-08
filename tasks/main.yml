@@ -19,13 +19,13 @@
     name: "{{ virtinstall_fqdn }}"
     count: "{{ virtinstall_networks | length }}"
   register: _vm
-  when: virtinstall_gen_mac_from_fqdn | bool
+  when: virtinstall_gen_mac_from_name | bool
 
 - name: "Debug mac address generation"
   local_action:
     module: ansible.builtin.debug
     msg: "{{ _vm }}"
-  when: virtinstall_gen_mac_from_fqdn | bool
+  when: virtinstall_gen_mac_from_name | bool
 
 - name: "Install VM {{ virtinstall_name }}"
   delegate_to: "{{ virtinstall_host }}"

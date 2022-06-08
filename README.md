@@ -36,8 +36,8 @@ virtinstall_name: "{{ inventory_hostname_short | d('test') }}"
 # this is different than the inventory_host which is the guest to be created
 virtinstall_host: "localhost"
 
-# generate MAC address(es) from FQDN and network card index
-virtinstall_gen_mac_from_fqdn: true
+# generate MAC address(es) from hostname and network card index
+virtinstall_gen_mac_from_name: true
 
 # FQDN used only for MAC generation,  define this in hosts inventory.
 virtinstall_fqdn: "{{ inventory_hostname | d('test.jam82.de') }}"
