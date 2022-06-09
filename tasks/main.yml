@@ -38,13 +38,13 @@
         --boot {{ virtinstall_boot | join(',') | d(omit) }}
       {% endif %}
       {% if virtinstall_connection is defined %}
-        --connect {{ virtinstall_connection | d(omit) }}
+        --connect {{ virtinstall_connection | d('omit') }}
       {% endif %}
       {% if virtinstall_console is defined %}
         --console {{ virtinstall_console | d(omit) }}
       {% endif %}
       {% for disk in virtinstall_disks %}
-        --disk {{ disk | d('pool=default,size=32') }}
+        --disk {{ disk | d('pool=default,size=8') }}
       {% endfor %}
       {% if virtinstall_extra_args is defined %}
         --extra-args "{{ virtinstall_extra_args | join(' ') | d(omit) }}"
@@ -53,7 +53,7 @@
         --features "{{ virtinstall_features | join(',') | d(omit) }}"
       {% endif %}
       {% for card in virtinstall_graphics %}
-        --graphics {{ card }}
+        --graphics {{ card | 'none' }}
       {% endfor %}
       {% if virtinstall_initrd_inject is defined and virtinstall_initrd_inject | length > 0 %}
         --initrd-inject {{ virtinstall_initrd_inject | d(omit) }}

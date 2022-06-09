@@ -20,9 +20,38 @@ Cloud-Init support will be added in the future.
 
 ## Variables
 
-Variables and defaults for this role.
+Variables and defaults for this role. For default values see `defaults/main.yml`.
 
-### defaults/main.yml
+### Description
+
+| Variable | type | required | default | Description |
+| -------- | ---- | -------- | ------- | ----------- |
+| `virtinstall_autostart` | *bool* | false | `none` | autostart libvirt guest on boot |
+| `virtinstall_boot` | *list* | false | `omit` | libvirt boot parameters |
+| `virtinstall_connection` | *str* | false | `omit` | libvirt connection; if false, sytem default is used |
+| `virtinstall_disks` | *list* | false | `pool=default,size=8` | the disk(s) to create for the guest |
+| `virtinstall_extra_args` | str | false | `omit` | extra kernel parameters to append. |
+
+| `virtinstall_features` | false | guest features like system management mode, etc. |
+| `virtinstall_fqdn` | false | only used if `virtinstall_gen_mac_from_name` is true |
+| `virtinstall_gen_mac_from_name` | false | generate mac from `inventory_hostname` |
+| `virtinstall_graphics` | true | graphics card definition |
+| `virtinstall_host` | true | the host that runs `virt-install` |
+| `virtinstall_initrd_inject` | false | inject file in initrd |
+| `virtinstall_location` | false | install from location |
+| `virtinstall_memory` | false | assigned memory of guest |
+| `virtinstall_name` | true | the name of the libvirt guest |
+| `virtinstall_networks` | true | networks the guest will be attached to |
+| `virtinstall_noautoconsole` | false | do not autoconnect to guest console |
+| `virtinstall_os_variant` | false | guest os, see `osinfo-query os` |
+| `virtinstall_pxe` | false | boot via pxe once |
+| `virtinstall_sound` | false | sound card to attach |
+| `virtinstall_vcpus` | false | number of cpus the guest can use |
+| `virtinstall_virt_type` | false | virtualization type, e.g. kvm, qemu, xen... |
+
+### Default values if ommited
+
+### Roles default values in defaults/main.yml
 
 ```yaml
 ---
