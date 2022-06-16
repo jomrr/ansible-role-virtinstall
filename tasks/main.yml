@@ -79,7 +79,11 @@
     {% if virtinstall_pxe is defined and virtinstall_pxe | bool %}
       --pxe
     {% endif %}
+    {% if virtinstall_reinstall is defined and virtinstall_reinstall | bool %}
+      --reinstall {{ virtinstall_name }}
+    {% endif %}
     --sound {{ virtinstall_sound | d(none) }}
     --vcpus={{ virtinstall_vcpus | d(2) }}
     --virt-type {{ virtinstall_virt_type | d(kvm) }}
   when: virtinstall_name not in all_vms.list_vms
+    or virtinstall_reinstall | bool

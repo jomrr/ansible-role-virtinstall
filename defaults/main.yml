@@ -55,6 +55,8 @@ virtinstall_networks:
 virtinstall_noautoconsole: true
 # os-variant, run `osinfo-query os` to get a list of supported OSs
 virtinstall_os_variant: almalinux8
+# reinstall guest
+virtinstall_reinstall: false
 # sound card to attach to the guest
 virtinstall_sound: none
 # number of vcpus

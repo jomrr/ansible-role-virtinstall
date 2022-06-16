@@ -24,16 +24,16 @@ Variables and defaults for this role. For default values see `defaults/main.yml`
 
 ### Description
 
-| Variable | type | required | default | Description |
-| -------- | ---- | -------- | ------- | ----------- |
-| `virtinstall_autostart` | *bool* | false | `none` | autostart libvirt guest on boot |
-| `virtinstall_boot` | *list* | false | `omit` | libvirt boot parameters |
-| `virtinstall_connection` | *str* | false | `omit` | libvirt connection; if false, sytem default is used |
-| `virtinstall_disks` | *list* | false | `pool=default,size=8` | the disk(s) to create for the guest |
-| `virtinstall_extra_args` | str | false | `omit` | extra kernel parameters to append. |
+| Variable                 | type     | required | default | Description |
+| ------------------------ | -------- | -------- | ------- | ----------- |
+| `virtinstall_autostart`  | *bool*   | false    | `none`  | autostart libvirt guest on boot |
+| `virtinstall_boot`       | *list*   | false    | `omit`  | libvirt boot parameters |
+| `virtinstall_connection` | *string* | false    | `omit`  | libvirt connection; if false, sytem default is used |
+| `virtinstall_disks`      | *list*   | false    | `pool=default,size=8` | the disk(s) to create for the guest |
+| `virtinstall_extra_args` | *string* | false    | `omit`  | extra kernel parameters to append. |
+| `virtinstall_features`   | *list*   | false    | `[ smm.state=on ]` | guest features like system management mode, etc. |
+| `virtinstall_fqdn`       | *string* | false    | `inventory_hostname` | only used if `virtinstall_gen_mac_from_name` is true |
 
-| `virtinstall_features` | false | guest features like system management mode, etc. |
-| `virtinstall_fqdn` | false | only used if `virtinstall_gen_mac_from_name` is true |
 | `virtinstall_gen_mac_from_name` | false | generate mac from `inventory_hostname` |
 | `virtinstall_graphics` | true | graphics card definition |
 | `virtinstall_host` | true | the host that runs `virt-install` |
@@ -45,6 +45,7 @@ Variables and defaults for this role. For default values see `defaults/main.yml`
 | `virtinstall_noautoconsole` | false | do not autoconnect to guest console |
 | `virtinstall_os_variant` | false | guest os, see `osinfo-query os` |
 | `virtinstall_pxe` | false | boot via pxe once |
+| `virtinstall_reinstall` | false | sound card to attach |
 | `virtinstall_sound` | false | sound card to attach |
 | `virtinstall_vcpus` | false | number of cpus the guest can use |
 | `virtinstall_virt_type` | false | virtualization type, e.g. kvm, qemu, xen... |
