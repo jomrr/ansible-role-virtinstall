@@ -14,16 +14,16 @@
   register: all_vms
 
 - name: "Generate mac address per defined network card"
-  local_action:
-    module: jam82.general.gen_mac_from_name
+  delegate_to: localhost
+  jam82.general.gen_mac_from_name:
     name: "{{ virtinstall_fqdn }}"
     count: "{{ virtinstall_networks | length }}"
   register: _vm
   when: virtinstall_gen_mac_from_name | bool
 
 - name: "Debug mac address generation"
-  local_action:
-    module: ansible.builtin.debug
+  delegate_to: localhost
+  ansible.builtin.debug:
     msg: "{{ _vm }}"
   when: virtinstall_gen_mac_from_name | bool
 

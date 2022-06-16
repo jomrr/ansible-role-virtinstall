@@ -24,18 +24,20 @@ Variables and defaults for this role. For default values see `defaults/main.yml`
 
 ### Description
 
-| Variable                 | type     | required | default | Description |
-| ------------------------ | -------- | -------- | ------- | ----------- |
-| `virtinstall_autostart`  | *bool*   | false    | `none`  | autostart libvirt guest on boot |
-| `virtinstall_boot`       | *list*   | false    | `omit`  | libvirt boot parameters |
-| `virtinstall_connection` | *string* | false    | `omit`  | libvirt connection; if false, sytem default is used |
-| `virtinstall_disks`      | *list*   | false    | `pool=default,size=8` | the disk(s) to create for the guest |
-| `virtinstall_extra_args` | *string* | false    | `omit`  | extra kernel parameters to append. |
-| `virtinstall_features`   | *list*   | false    | `[ smm.state=on ]` | guest features like system management mode, etc. |
-| `virtinstall_fqdn`       | *string* | false    | `inventory_hostname` | only used if `virtinstall_gen_mac_from_name` is true |
+Column `fallback` is referencing the `| default(..)` filter in `tasks/main.yml`.
 
-| `virtinstall_gen_mac_from_name` | false | generate mac from `inventory_hostname` |
-| `virtinstall_graphics` | true | graphics card definition |
+| Variable                 | type     | required | fallback | Description |
+| ------------------------ | -------- | -------- | -------  | ----------- |
+| `virtinstall_autostart`  | *bool*   | false    | `-`   | autostart libvirt guest on boot |
+| `virtinstall_boot`       | *list*   | false    | `omit`   | libvirt boot parameters |
+| `virtinstall_connection` | *string* | false    | `omit`   | libvirt connection; if false, sytem default is used |
+| `virtinstall_disks`      | *list*   | false    | `'pool=default,size=8'` | the disk(s) to create for the guest |
+| `virtinstall_extra_args` | *string* | false    | `omit`   | extra kernel parameters to append. |
+| `virtinstall_features`   | *list*   | false    | `omit` | guest features like system management mode, etc. |
+| `virtinstall_fqdn`       | *string* | false    | `-` | only used if `virtinstall_gen_mac_from_name` is true |
+| `virtinstall_gen_mac_from_name` | *bool* | false | `-` | generate mac from `virtinstall_fqdn` |
+| `virtinstall_graphics`   | *list*   | false    | `'none'` | graphics card definition(s), if ommitted only single `--graphics=none` is used |
+
 | `virtinstall_host` | true | the host that runs `virt-install` |
 | `virtinstall_initrd_inject` | false | inject file in initrd |
 | `virtinstall_location` | false | install from location |
@@ -50,9 +52,7 @@ Variables and defaults for this role. For default values see `defaults/main.yml`
 | `virtinstall_vcpus` | false | number of cpus the guest can use |
 | `virtinstall_virt_type` | false | virtualization type, e.g. kvm, qemu, xen... |
 
-### Default values if ommited
-
-### Roles default values in defaults/main.yml
+### Default values in defaults/main.yml
 
 ```yaml
 ---
