@@ -42,7 +42,7 @@ virtinstall_features:
 virtinstall_graphics:
   - spice
 # inject kickstart or preseed file
-virtinstall_initrd_inject: ''  # /tmp/test.ks
+virtinstall_initrd_inject: ''  # /tmp/test.cfg
 # install location, cann install directly from mirror
 virtinstall_location: https://ftp.fau.de/almalinux/8/BaseOS/x86_64/os
 # guest memory

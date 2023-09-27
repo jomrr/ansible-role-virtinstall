@@ -68,7 +68,7 @@
         --network={{ virtinstall_networks[loop.index0] }},mac={{ mac }}
       {% endfor %}
     {% else %}
-      {% for mac in virtinstall_networks %}
+      {% for net in virtinstall_networks %}
         --network={{ net }}
       {% endfor %}
     {% endif %}
