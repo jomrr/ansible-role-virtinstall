@@ -27,7 +27,7 @@
     msg: "{{ _vm }}"
   when: virtinstall_gen_mac_from_name | bool
 
-- name: "Install VM {{ virtinstall_name }}"
+- name: "Install VM {{ virtinstall_name }}"   # noqa: jinja[spacing]
   delegate_to: "{{ virtinstall_host }}"
   ansible.builtin.command: >-2
     virt-install
@@ -85,5 +85,7 @@
     --sound {{ virtinstall_sound | d(none) }}
     --vcpus={{ virtinstall_vcpus | d(2) }}
     --virt-type {{ virtinstall_virt_type | d(kvm) }}
+  register: _install
+  changed_when: _install is success
   when: virtinstall_name not in all_vms.list_vms
     or virtinstall_reinstall | bool
