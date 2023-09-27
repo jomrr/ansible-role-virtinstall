@@ -2,9 +2,6 @@
 # role: ansible-role-virtinstall
 # file: defaults/main.yml
 
-# name of the guest in libvirt
-virtinstall_name: "{{ inventory_hostname_short | d('test') }}"
-
 # the host virt-install is executed from, all tasks are delegated to this host.
 # this is different than the inventory_host which is the guest to be created
 virtinstall_host: "localhost"
@@ -12,8 +9,13 @@ virtinstall_host: "localhost"
 # generate MAC address(es) from hostname and network card index
 virtinstall_gen_mac_from_name: true
 
-# FQDN used only for MAC generation,  define this in hosts inventory.
-virtinstall_fqdn: "{{ inventory_hostname | d('test.jam82.de') }}"
+# FQDN used only for MAC generation, define this in inventory.
+virtinstall_fqdn: "{{ inventory_hostname | default('test.jam82.de') }}"
+
+# --- virt-install command line options start here --------------------------- #
+
+# autostart guest
+virtinstall_autostart:
 
 # secure boot on fedora
 virtinstall_boot:
@@ -22,12 +24,23 @@ virtinstall_boot:
   - loader.type=pflash
   - nvram.template=/usr/share/OVMF/OVMF_VARS.secboot.fd
   - loader_secure=yes
+
 # default to local qemu system connection
 virtinstall_connection: qemu:///system
+
+# console settings
 virtinstall_console: pty,target_type=serial
+
+# cpu model, e.g. host
+virtinstall_cpu:
+
+# which physical cpus the guest can use as comma separated list of numbers
+virtinstall_cpuset:
+
 # disks of the VM as list, direct params of `virt-install --disk`
 virtinstall_disks:
   - "path=/tmp/{{ virtinstall_name }}.qcow2,format=qcow2,size=32,target.bus=virtio"
+
 # virt-install --extra-args "..."
 # inst.ks file has to exist or virt-install fails.
 virtinstall_extra_args:
@@ -35,31 +48,46 @@ virtinstall_extra_args:
   - console=tty0
   - console=ttyS0,115200
   - ipv6.disable=1
+
 # system management mode needed for secure boot
 virtinstall_features:
   - smm.state=on
+
 # graphics cards of the guest
 virtinstall_graphics:
   - spice
+
 # inject kickstart or preseed file
-virtinstall_initrd_inject: ''  # /tmp/test.cfg
+virtinstall_initrd_inject:  # /tmp/test.cfg
+
 # install location, cann install directly from mirror
 virtinstall_location: https://ftp.fau.de/almalinux/8/BaseOS/x86_64/os
+
 # guest memory
 virtinstall_memory: 4096
+
+# name of the guest in libvirt
+virtinstall_name: "{{ inventory_hostname_short | default('test') }}"
+
 # guest networks, do not specify mac=52:54... when virtinstall_gen_mac_from_fqdn
 virtinstall_networks:
-  - bridge:br0
+  - "network=default,model=virtio,mac={{ _vm.macs[0] }}"
+
 # with noautoconsole virt-install terminates after spinning up the install
 # and leaves the guest shutdown after intsallation
 virtinstall_noautoconsole: true
+
 # os-variant, run `osinfo-query os` to get a list of supported OSs
 virtinstall_os_variant: almalinux8
+
 # reinstall guest
 virtinstall_reinstall: false
+
 # sound card to attach to the guest
 virtinstall_sound: none
+
 # number of vcpus
 virtinstall_vcpus: 4
+
 # virtualization type used for the guest: kvm, qemu, xen, etc...
 virtinstall_virt_type: kvm
