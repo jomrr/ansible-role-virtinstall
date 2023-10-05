@@ -29,7 +29,7 @@ virtinstall_boot:
   - loader_secure=yes
 
 # default to local qemu system connection
-virtinstall_connection: qemu:///system
+virtinstall_connection: "qemu:///system"
 
 # console settings
 virtinstall_console: pty,target_type=serial
