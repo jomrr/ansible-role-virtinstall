@@ -15,7 +15,7 @@ virtinstall_fqdn: "{{ inventory_hostname | default('test.jam82.de') }}"
 # --- virt-install command line options start here --------------------------- #
 
 # autostart guest
-virtinstall_autostart:
+virtinstall_autostart: false
 
 # secure boot on fedora
 virtinstall_boot:
@@ -32,10 +32,10 @@ virtinstall_connection: qemu:///system
 virtinstall_console: pty,target_type=serial
 
 # cpu model, e.g. host
-virtinstall_cpu:
+virtinstall_cpu: 'host'
 
 # which physical cpus the guest can use as comma separated list of numbers
-virtinstall_cpuset:
+virtinstall_cpuset: ''
 
 # disks of the VM as list, direct params of `virt-install --disk`
 virtinstall_disks:
