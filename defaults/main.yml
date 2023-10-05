@@ -6,6 +6,9 @@
 # this is different than the inventory_host which is the guest to be created
 virtinstall_host: "localhost"
 
+# path for generating virt-install scripts
+virtinstall_path: "/tmp/virt-install-{{ inventory_hostname_short }}"
+
 # generate MAC address(es) from hostname and network card index
 virtinstall_gen_mac_from_name: true
 
