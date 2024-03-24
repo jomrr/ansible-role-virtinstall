@@ -1,24 +1,16 @@
 ---
-# role: ansible-role-virtinstall
+# name: jam82.virtinstall
 # file: meta/main.yml
 
 galaxy_info:
+  namespace: jam82
   role_name: virtinstall
-  author: jam82
+  author: Jonas Mauer
+  company: none
   description: Ansible role for deploying libvirt guests with virt-install.
-  company: ''
-
-  issue_tracker_url: https://github.com/jam82/ansible-role-virtinstall/issues
-
   license: MIT
-
-  min_ansible_version: "2.9"
-
-  platforms:
-    - name: Fedora
-      versions:
-        - all
-
-  galaxy_tags: []
-
-dependencies: []
+  issue_tracker_url: https://github.com/jam82/ansible-role-virtinstall/issues
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - virtinstall
+    - libvirt

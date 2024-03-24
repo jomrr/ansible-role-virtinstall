@@ -3,37 +3,23 @@
 # file: tasks/main.yml
 
 - name: "List all VMs"
-  delegate_to: "{{ virtinstall_host }}"
   community.libvirt.virt:
     command: list_vms
     uri: "{{ virtinstall_connection }}"
   register: all_vms
 
-- name: "Generate mac address per defined network card"
-  delegate_to: localhost
-  jam82.general.gen_mac_from_name:
-    name: "{{ virtinstall_fqdn }}"
-    count: "{{ virtinstall_networks | length }}"
-  register: _vm
-  when: virtinstall_gen_mac_from_name | bool
-
-- name: "Debug mac address generation"
-  delegate_to: localhost
-  ansible.builtin.debug:
-    msg: "{{ _vm }}"
-  when: virtinstall_gen_mac_from_name | bool
-
 - name: "Generate virt-install scripts"
-  delegate_to: "{{ virtinstall_host }}"
   ansible.builtin.template:
     src: virt-install.bash.j2
-    dest: "{{ virtinstall_path }}"
+    dest: "{{ virtinstall_script_path }}/virt-install-{{ item.name }}.bash"
     mode: '0750'
+  loop: "{{ virtinstall_domains }}"
 
-- name: "Install VM {{ virtinstall_name }}"
-  delegate_to: "{{ virtinstall_host }}"
-  ansible.builtin.command: "{{ virtinstall_path }}"
+- name: "Install VM"
+  become: true
+  ansible.builtin.command: "{{ virtinstall_script_path }}/virt-install-{{ item.name }}.bash"
   register: _install
   changed_when: _install is success
-  when: virtinstall_name not in all_vms.list_vms
-    or virtinstall_reinstall | bool
+  loop: "{{ virtinstall_domains }}"
+  when: item.name not in all_vms.list_vms
+    or item.reinstall | bool

@@ -1,0 +1,10 @@
+---
+# name: jam82.virtinstall
+# file: meta/requirements.yml
+
+collections:
+  - community.libvirt
+  - {'name': 'git+https://github.com/jam82/ansible-collection-general', 'version': 'main'}
+
+roles:
+  - {'name': 'git+https://github.com/jam82/ansible-role-libvirtd', 'version': 'main'}
