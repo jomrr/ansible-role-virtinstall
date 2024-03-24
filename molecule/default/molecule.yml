@@ -12,10 +12,7 @@ driver:
     managed: false
     ansible_connection_options:
       ansible_connection: local
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
+lint: set -e; ansible-lint
 platforms:
   - name: localhost
     ansible_connection: local
@@ -23,14 +20,8 @@ provisioner:
   name: ansible
   log: true
   playbooks:
-    prepare: ../resources/playbooks/prepare.yml
     converge: ../resources/playbooks/converge.yml
     verify: ../resources/playbooks/verify.yml
-  inventory:
-    host_vars:
-      localhost:
-        virtinstall_install: false
-      test:
 scenario:
   create_sequence:
     - create

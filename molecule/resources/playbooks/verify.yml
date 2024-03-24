@@ -1,17 +1,17 @@
----
-# name: jam82.ansible-role-virtinstall
+# role: jam82.virtinstall
 # file: molecule/resources/playbooks/verify.yml
+# code: language=ansible-jinja
 
 - name: "PLAYBOOK | Verify"
+  hosts: all
   become: false
   gather_facts: false
-  hosts: all
   tasks:
-    - name: Check virt-install version
+    - name: "Check virt-install version"
       ansible.builtin.command:
-        cmd: virt-install --version
+        cmd: "virt-install --version"
       register: _virtinstall_version
       changed_when: false
-    - name: Check virt-install --version return code
+    - name: "Check virt-install --version return code"
       ansible.builtin.assert:
         that: _virtinstall_version.rc == 0
