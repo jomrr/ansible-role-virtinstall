@@ -5,7 +5,7 @@ description = "Ansible role for deploying libvirt guests with virt-install."
 authors = ["Jonas Mauer"]
 license = "MIT"
 keywords = ["virtinstall", "libvirt"]
-repository = "https://github.com/jam82/ansible-role-virtinstall"
+repository = "https://github.com/jomrr/ansible-role-virtinstall"
 
 [tool.commitizen]
 name = "cz_conventional_commits"

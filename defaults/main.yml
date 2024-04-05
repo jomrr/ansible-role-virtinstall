@@ -49,7 +49,7 @@ virtinstall_domains:
     name: "test"
     # guest networks, do not specify mac=52:54... when gen_mac_from_fqdn
     networks:
-      - "network=default,model=virtio,mac={{ lookup('jam82.general.mac_address', 'test.example.com-0') }}"
+      - "network=default,model=virtio,mac={{ lookup('jomrr.general.mac_address', 'test.example.com-0') }}"
     # with noautoconsole virt-install terminates after spinning up the install
     # and leaves the guest shutdown after intsallation
     noautoconsole: true
