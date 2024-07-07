@@ -1,5 +1,5 @@
 ---
-# role: ansible-role-virtinstall
+# role: jomrr.virtinstall
 # file: molecule/default/molecule.yml
 
 dependency:

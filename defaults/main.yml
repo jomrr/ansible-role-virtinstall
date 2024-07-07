@@ -1,5 +1,5 @@
 ---
-# role: ansible-role-virtinstall
+# role: jomrr.virtinstall
 # file: defaults/main.yml
 
 # path for generating virt-install scripts
@@ -41,7 +41,7 @@ virtinstall_domains:
       - spice
     # inject kickstart or preseed file
     initrd_inject:  # /tmp/test.cfg
-    # install location, cann install directly from mirror
+    # install location, can install directly from mirror
     location: https://ftp.fau.de/almalinux/9/BaseOS/x86_64/os
     # guest memory
     memory: 4096
