@@ -22,7 +22,7 @@ virt-install \
     --cpuset {{ item.cpuset | default(omit) }} \
 {% endif %}
 {% for disk in item.disks %}
-    --disk {{ disk | default('pool=default,size=8') }} \
+    --disk {{ disk | default("pool=default,size=64") }} \
 {% endfor %}
 {% if item.extra_args | default([]) | length > 0 %}
     --extra-args "{{ item.extra_args | join(' ') | default(omit) }}" \
@@ -49,7 +49,8 @@ virt-install \
 {% if item.noautoconsole | default('noautoconsole') %}
     --{{ item.noautoconsole | ternary('noautoconsole','autoconsole') }} \
 {% endif %}
-    --os-variant={{ item.os_variant | default(generic) }} \
+    --os-type={{ item.os_type | default('linux') }} \
+    --os-variant={{ item.os_variant | default('linux2022') }} \
 {% if item.pxe is defined and item.pxe | bool %}
     --pxe \
 {% endif %}
@@ -57,5 +58,5 @@ virt-install \
     --reinstall {{ item.name }} \
 {% endif %}
     --sound {{ item.sound | default(none) }} \
-    --vcpus={{ item.vcpus | default(2) }} \
+    --vcpus={{ item.vcpus | default(4) }} \
     --virt-type {{ item.virt_type | default(kvm) }}
