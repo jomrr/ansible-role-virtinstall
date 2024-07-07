@@ -1,0 +1,7 @@
+---
+# name: jomrr.virtinstall
+# file: meta/requirements.yml
+
+- name: community.libvirt
+- name: git+https://github.com/jomrr/ansible-collection-general
+  version: main
