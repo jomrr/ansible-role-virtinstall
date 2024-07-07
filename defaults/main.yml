@@ -1,5 +1,5 @@
 ---
-# role: ansible-role-virtinstall
+# role: jomrr.virtinstall
 # file: defaults/main.yml
 
 # path for generating virt-install scripts
@@ -41,7 +41,7 @@ virtinstall_domains:
       - spice
     # inject kickstart or preseed file
     initrd_inject:  # /tmp/test.cfg
-    # install location, cann install directly from mirror
+    # install location, can install directly from mirror
     location: https://ftp.fau.de/almalinux/9/BaseOS/x86_64/os
     # guest memory
     memory: 4096
@@ -49,7 +49,7 @@ virtinstall_domains:
     name: "test"
     # guest networks, do not specify mac=52:54... when gen_mac_from_fqdn
     networks:
-      - "network=default,model=virtio,mac={{ lookup('jam82.general.mac_address', 'test.example.com-0') }}"
+      - "network=default,model=virtio,mac={{ lookup('jomrr.general.mac_address', 'test.example.com-0') }}"
     # with noautoconsole virt-install terminates after spinning up the install
     # and leaves the guest shutdown after intsallation
     noautoconsole: true
