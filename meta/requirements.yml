@@ -8,5 +8,6 @@ collections:
     version: main
 
 roles:
-  - src: https://github.com/jomrr/ansible-role-libvirtd
+  - name: libvirtd
+    src: https://github.com/jomrr/ansible-role-libvirtd
     version: main
