@@ -1,0 +1,9 @@
+---
+# role: jomrr.virtinstall
+# file: meta/requirements.yml
+
+collections:
+  - {'name': 'community.libvirt'}
+  - {'name': 'git+https://github.com/jomrr/ansible-collection-general', 'version': 'main'}
+
+roles: []
