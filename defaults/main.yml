@@ -2,28 +2,47 @@
 # role: jomrr.virtinstall
 # file: defaults/main.yml
 
-# path for generating virt-install scripts
-virtinstall_script_path: "/tmp"
 # default to local qemu system connection
 virtinstall_connection: "qemu:///system"
 
+virtinstall_defaults:
+  # autostart guest
+  autostart: false
+  # secure boot on fedora
+  boot:
+    - loader=/usr/share/OVMF/OVMF_CODE.secboot.fd
+    - loader.readonly=yes
+    - loader.type=pflash
+    - nvram.template=/usr/share/OVMF/OVMF_VARS.secboot.fd
+    - loader_secure=yes
+  # console settings
+  console: pty,target_type=serial
+  # cpu model, e.g. host
+  cpu: 'host'
+  # which physical cpus the guest can use as comma separated list of numbers
+  cpuset: ''
+  # system management mode needed for secure boot
+  features:
+    - smm.state=on
+  # graphics cards of the guest
+  graphics:
+    - spice
+  # guest memory
+  memory: 4096
+  # with noautoconsole virt-install terminates after spinning up the install
+  # and leaves the guest shutdown after intsallation
+  noautoconsole: true
+  # reinstall guest
+  reinstall: false
+  # sound card to attach to the guest
+  sound: none
+  # number of vcpus
+  vcpus: 4
+  # virtualization type used for the guest: kvm, qemu, xen, etc...
+  virt_type: kvm
+
 virtinstall_domains:
-  - # autostart guest
-    autostart: false
-    # secure boot on fedora
-    boot:
-      - loader=/usr/share/OVMF/OVMF_CODE.secboot.fd
-      - loader.readonly=yes
-      - loader.type=pflash
-      - nvram.template=/usr/share/OVMF/OVMF_VARS.secboot.fd
-      - loader_secure=yes
-    # console settings
-    console: pty,target_type=serial
-    # cpu model, e.g. host
-    cpu: 'host'
-    # which physical cpus the guest can use as comma separated list of numbers
-    cpuset: ''
-    # disks of the VM as list, direct params of `virt-install --disk`
+  - # disks of the VM as list, direct params of `virt-install --disk`
     disks:
       - "path=/tmp/test.qcow2,format=qcow2,size=32,target.bus=virtio"
     # virt-install --extra-args "..."
@@ -33,33 +52,17 @@ virtinstall_domains:
       - console=tty0
       - console=ttyS0,115200
       - ipv6.disable=1
-    # system management mode needed for secure boot
-    features:
-      - smm.state=on
-    # graphics cards of the guest
-    graphics:
-      - spice
     # inject kickstart or preseed file
     initrd_inject:  # /tmp/test.cfg
     # install location, can install directly from mirror
     location: https://ftp.fau.de/almalinux/9/BaseOS/x86_64/os
-    # guest memory
-    memory: 4096
     # name of the guest in libvirt
     name: "test"
     # guest networks, do not specify mac=52:54... when gen_mac_from_fqdn
     networks:
       - "network=default,model=virtio,mac={{ lookup('jomrr.general.mac_address', 'test.example.com-0') }}"
-    # with noautoconsole virt-install terminates after spinning up the install
-    # and leaves the guest shutdown after intsallation
-    noautoconsole: true
     # os-variant, run `osinfo-query os` to get a list of supported OSs
     os_variant: almalinux9
-    # reinstall guest
-    reinstall: false
-    # sound card to attach to the guest
-    sound: none
-    # number of vcpus
-    vcpus: 4
-    # virtualization type used for the guest: kvm, qemu, xen, etc...
-    virt_type: kvm
+
+# path for generating virt-install scripts
+virtinstall_script_path: "/tmp"
